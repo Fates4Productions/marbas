@@ -40,7 +40,7 @@ module.exports = {
                 fame = data.rows[0].fame,
                 fetch(`https://api.dfoneople.com/df/servers/${server}/characters/${characterId}?apikey=${API_KEY}`)
                 .then (res2=> res2.json())
-                .then (data2 => {
+                .then (async data2 => {
                     adventureName = data2.adventureName,
                     guildName = data2.guildName,
                     embed = {
@@ -103,7 +103,15 @@ module.exports = {
                               }
                             ]
                           }
-                         interaction.reply(embed);
+                          try{
+                            await interaction.deferReply();
+                            //await wait(3000);
+
+                            await interaction.reply(embed);
+                          } catch(err) {
+                            console.log(err);
+                            return;
+                          }
                 });
             });
 

@@ -136,7 +136,7 @@ module.exports = {
 
                          try{
                             await interaction.deferReply();
-                            await wait(6000);
+                            //await wait(6000);
                             await interaction.editReply({embeds: [embed], files: [attachment] });
                          }
                          catch(err){
