@@ -107,7 +107,7 @@ module.exports = {
                             await interaction.deferReply();
                             //await wait(3000);
 
-                            await interaction.reply(embed);
+                            await interaction.editReply(embed);
                           } catch(err) {
                             console.log(err);
                             return;
