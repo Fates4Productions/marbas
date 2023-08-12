@@ -104,7 +104,7 @@ module.exports = {
                             ]
                           }
                           try{
-                            await interaction.deferReply();
+                            //await interaction.deferReply();
                             //await wait(3000);
 
                             await interaction.editReply(embed);
