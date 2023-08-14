@@ -32,7 +32,7 @@ module.exports = {
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
             .then(data => {
-                if(!data.rows[0]) return interaction.reply("That character doesn't exist... yet.");
+                if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,
                 level = data.rows[0].level,
