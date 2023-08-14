@@ -58,7 +58,7 @@ module.exports = {
                 fetch(`https://api.dfoneople.com/df/servers/${server}/characters/${characterId}/equip/equipment?apikey=${API_KEY}`)
                 .then (res2=> res2.json())
                 .then (async data2 => {
-                    if(data2.equipment.length<13) return interaction.reply("Missing equipment in slots");
+                    if(data2.equipment.length<13) return interaction.editReply("Missing equipment in slots");
                     adventureName = data2.adventureName,
                     wepImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[0].itemId}`),
                     topImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[2].itemId}`),
