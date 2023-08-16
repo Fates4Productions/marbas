@@ -12,7 +12,7 @@ const wait = require('node:timers/promises').setTimeout;
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('inspectdetailed')
-    .setDescription('Check gear details on a character  (NOT FULLY IMPLEMENTED YET)')
+    .setDescription('Check gear details on a character  *EXPERIMENTAL, if the bot goes down ping @shadepopping')
     .addStringOption(option => option.setName('ign')
         .setDescription('Character to look up.')
         .setRequired(true))
@@ -59,19 +59,57 @@ module.exports = {
                 .then (res2=> res2.json())
                 .then (async data2 => {
                     if(data2.equipment.length<13) return interaction.editReply("Missing equipment in slots");
-                    adventureName = data2.adventureName,
-                    wepImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[0].itemId}`),
-                    topImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[2].itemId}`),
-                    shoulderImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[3].itemId}`),
-                    beltImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[6].itemId}`),
-                    pantsImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[4].itemId}`),
-                    shoesImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[5].itemId}`),
-                    braceImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[8].itemId}`),
-                    neckImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[7].itemId}`),
-                    ringImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[9].itemId}`),
-                    subImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[10].itemId}`),
-                    stoneImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[11].itemId}`),
-                    earImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[12].itemId}`),
+                    if(data2.equipment[0].growInfo == null || data2.equipment[2].growInfo == null || data2.equipment[3].growInfo == null || data2.equipment[6].growInfo == null || data2.equipment[4].growInfo == null || data2.equipment[5].growInfo == null || data2.equipment[8].growInfo == null || data2.equipment[7].growInfo == null || data2.equipment[9].growInfo == null || data2.equipment[10].growInfo == null || data2.equipment[11].growInfo == null || data2.equipment[12].growInfo == null) return interaction.editReply("Level 105 Equipment not equipped in some slots");
+                    adventureName = data2.adventureName;
+                    if(data2.equipment[0].upgradeInfo != null) 
+                        wepImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[0].upgradeInfo.itemId}`);
+                    else
+                        wepImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[0].itemId}`);
+                    if(data2.equipment[2].upgradeInfo != null)
+                        topImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[2].upgradeInfo.itemId}`);
+                    else
+                        topImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[2].itemId}`);
+                    if(data2.equipment[3].upgradeInfo != null)
+                        shoulderImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[3].upgradeInfo.itemId}`);
+                    else
+                        shoulderImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[3].itemId}`);
+                    if(data2.equipment[6].upgradeInfo != null)
+                        beltImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[6].upgradeInfo.itemId}`);
+                    else
+                        beltImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[6].itemId}`);
+                    if(data2.equipment[4].upgradeInfo != null)
+                        pantsImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[4].upgradeInfo.itemId}`);
+                    else
+                        pantsImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[4].itemId}`);
+                    if(data2.equipment[5].upgradeInfo != null)
+                        shoesImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[5].upgradeInfo.itemId}`);
+                    else
+                        shoesImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[5].itemId}`);
+                    if(data2.equipment[8].upgradeInfo != null)
+                    braceImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[8].upgradeInfo.itemId}`);
+                    else
+                    braceImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[8].itemId}`);
+                    if(data2.equipment[7].upgradeInfo != null)
+                    neckImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[7].upgradeInfo.itemId}`);
+                    else
+                    neckImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[7].itemId}`);
+                    if(data2.equipment[9].upgradeInfo != null)
+                    ringImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[9].upgradeInfo.itemId}`);
+                    else
+                    ringImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[9].itemId}`);
+                    if(data2.equipment[10].upgradeInfo != null)
+                    subImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[10].upgradeInfo.itemId}`);
+                    else
+                    subImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[10].itemId}`);
+                    if(data2.equipment[11].upgradeInfo != null)
+                    stoneImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[11].upgradeInfo.itemId}`);
+                    else
+                    stoneImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[11].itemId}`);
+                    if(data2.equipment[12].upgradeInfo != null)
+                    earImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[12].upgradeInfo.itemId}`);
+                    else
+                    earImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[12].itemId}`);
+
                     ctx.drawImage(shoulderImg, 0, 0),
                     ctx.drawImage(topImg, 30, 0),
                     ctx.drawImage(wepImg,90,0),
@@ -84,6 +122,9 @@ module.exports = {
                     ctx.drawImage(subImg,30,60),
                     ctx.drawImage(stoneImg,60,60),
                     ctx.drawImage(earImg,90,60),
+
+                    //console.log(data2.equipment),
+
                     attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'inspect-gear.png' }),
                     embed = new EmbedBuilder()
                         .setTitle(`Explorer Club\n<${adventureName}>`)
@@ -108,11 +149,40 @@ module.exports = {
                                 "name": `Fame:`,
                                 "value": `${fame}`,
                                 "inline": true
+                            },
+                            {
+                                "name": `Weapon:`,
+                                "value": `+${data2.equipment[0].reinforce}${data2.equipment[0].amplificationName?'['+data2.equipment[0].amplificationName.slice(-3)+']':''}(${data2.equipment[0].refine}) ${data2.equipment[0].itemName} (${data2.equipment[0].growInfo.options[0].level}/${data2.equipment[0].growInfo.options[1].level}/${data2.equipment[0].growInfo.options[2].level}/${data2.equipment[0].growInfo.options[3].level}=${data2.equipment[0].growInfo.total.level})`,
+                                "inline": false
+                            },
+                            {
+                                "name": `Armour:`,
+                                "value": `${data2.equipment[2].slotName}: +${data2.equipment[2].reinforce}${data2.equipment[2].amplificationName?'['+data2.equipment[2].amplificationName.slice(-3)+']':''} ${data2.equipment[2].itemName} (${data2.equipment[2].growInfo.options[0].level}/${data2.equipment[2].growInfo.options[1].level}/${data2.equipment[2].growInfo.options[2].level}/${data2.equipment[2].growInfo.options[3].level}=${data2.equipment[2].growInfo.total.level})
+                                ${data2.equipment[4].slotName}: +${data2.equipment[4].reinforce}${data2.equipment[4].amplificationName?'['+data2.equipment[4].amplificationName.slice(-3)+']':''} ${data2.equipment[4].itemName} (${data2.equipment[4].growInfo.options[0].level}/${data2.equipment[4].growInfo.options[1].level}/${data2.equipment[4].growInfo.options[2].level}/${data2.equipment[4].growInfo.options[3].level}=${data2.equipment[4].growInfo.total.level})
+                                ${data2.equipment[3].slotName}: +${data2.equipment[3].reinforce}${data2.equipment[3].amplificationName?'['+data2.equipment[3].amplificationName.slice(-3)+']':''} ${data2.equipment[3].itemName} (${data2.equipment[3].growInfo.options[0].level}/${data2.equipment[3].growInfo.options[1].level}/${data2.equipment[3].growInfo.options[2].level}/${data2.equipment[3].growInfo.options[3].level}=${data2.equipment[3].growInfo.total.level})
+                                ${data2.equipment[6].slotName}: +${data2.equipment[6].reinforce}${data2.equipment[6].amplificationName?'['+data2.equipment[6].amplificationName.slice(-3)+']':''} ${data2.equipment[6].itemName} (${data2.equipment[6].growInfo.options[0].level}/${data2.equipment[6].growInfo.options[1].level}/${data2.equipment[6].growInfo.options[2].level}/${data2.equipment[6].growInfo.options[3].level}=${data2.equipment[6].growInfo.total.level})
+                                ${data2.equipment[5].slotName}: +${data2.equipment[5].reinforce}${data2.equipment[5].amplificationName?'['+data2.equipment[5].amplificationName.slice(-3)+']':''} ${data2.equipment[5].itemName} (${data2.equipment[5].growInfo.options[0].level}/${data2.equipment[5].growInfo.options[1].level}/${data2.equipment[5].growInfo.options[2].level}/${data2.equipment[5].growInfo.options[3].level}=${data2.equipment[5].growInfo.total.level})`,
+                                "inline": false
+                            },
+                            {
+                                "name": `Accessory:`,
+                                "value": `${data2.equipment[7].slotName}: +${data2.equipment[7].reinforce}${data2.equipment[7].amplificationName?'['+data2.equipment[7].amplificationName.slice(-3)+']':''} ${data2.equipment[7].itemName} (${data2.equipment[7].growInfo.options[0].level}/${data2.equipment[7].growInfo.options[1].level}/${data2.equipment[7].growInfo.options[2].level}/${data2.equipment[7].growInfo.options[3].level}=${data2.equipment[7].growInfo.total.level})
+                                ${data2.equipment[8].slotName}: +${data2.equipment[8].reinforce}${data2.equipment[8].amplificationName?'['+data2.equipment[8].amplificationName.slice(-3)+']':''} ${data2.equipment[8].itemName} (${data2.equipment[8].growInfo.options[0].level}/${data2.equipment[8].growInfo.options[1].level}/${data2.equipment[8].growInfo.options[2].level}/${data2.equipment[8].growInfo.options[3].level}=${data2.equipment[8].growInfo.total.level})
+                                ${data2.equipment[9].slotName}: +${data2.equipment[9].reinforce}${data2.equipment[9].amplificationName?'['+data2.equipment[9].amplificationName.slice(-3)+']':''} ${data2.equipment[9].itemName} (${data2.equipment[9].growInfo.options[0].level}/${data2.equipment[9].growInfo.options[1].level}/${data2.equipment[9].growInfo.options[2].level}/${data2.equipment[9].growInfo.options[3].level}=${data2.equipment[9].growInfo.total.level})`,
+                                "inline": false
+                            },
+                            {
+                                "name": `Special Equipment:`,
+                                "value": `${data2.equipment[10].slotName}: +${data2.equipment[10].reinforce}${data2.equipment[10].amplificationName?'['+data2.equipment[10].amplificationName.slice(-3)+']':''} ${data2.equipment[10].itemName} (${data2.equipment[10].growInfo.options[0].level}/${data2.equipment[10].growInfo.options[1].level}/${data2.equipment[10].growInfo.options[2].level}/${data2.equipment[10].growInfo.options[3].level}=${data2.equipment[10].growInfo.total.level})
+                                ${data2.equipment[12].slotName}: +${data2.equipment[12].reinforce}${data2.equipment[12].amplificationName?'['+data2.equipment[12].amplificationName.slice(-3)+']':''} ${data2.equipment[12].itemName} (${data2.equipment[12].growInfo.options[0].level}/${data2.equipment[12].growInfo.options[1].level}/${data2.equipment[12].growInfo.options[2].level}/${data2.equipment[12].growInfo.options[3].level}=${data2.equipment[12].growInfo.total.level})
+                                ${data2.equipment[11].slotName}: +${data2.equipment[11].reinforce}${data2.equipment[11].amplificationName?'['+data2.equipment[11].amplificationName.slice(-3)+']':''} ${data2.equipment[11].itemName} (${data2.equipment[11].growInfo.options[0].level}/${data2.equipment[11].growInfo.options[1].level}/${data2.equipment[11].growInfo.options[2].level}/${data2.equipment[11].growInfo.options[3].level}=${data2.equipment[11].growInfo.total.level})`,
+                                "inline": false
                             }
                         ])
                         .setFooter({
                             "text": `Character id: ${characterId}\nBot by @shadepopping`
                         })
+                        
                     
                     
                     /*{
