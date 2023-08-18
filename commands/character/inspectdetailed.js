@@ -1,18 +1,12 @@
-const { SlashCommandBuilder, discordSort, MessageAttachment, AttachmentBuilder, EmbedBuilder, CategoryChannel } = require("discord.js");
+const { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const {API_KEY} = require('../../config.json');
 const fetch = require('node-fetch');
-const { request } = require('undici');
-const { URLSearchParams } = require("url");
-const { channel } = require("diagnostics_channel");
 const Canvas = require('@napi-rs/canvas');
-const path = require('path');
-const { waitForDebugger } = require("inspector");
-const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('inspectdetailed')
-    .setDescription('Check gear details on a character  *EXPERIMENTAL, if the bot goes down ping @shadepopping')
+    .setDescription('Check gear details on a character')
     .addStringOption(option => option.setName('ign')
         .setDescription('Character to look up.')
         .setRequired(true))
@@ -59,7 +53,7 @@ module.exports = {
                 .then (res2=> res2.json())
                 .then (async data2 => {
                     if(data2.equipment.length<13) return interaction.editReply("Missing equipment in slots");
-                    if(data2.equipment[0].growInfo == null || data2.equipment[2].growInfo == null || data2.equipment[3].growInfo == null || data2.equipment[6].growInfo == null || data2.equipment[4].growInfo == null || data2.equipment[5].growInfo == null || data2.equipment[8].growInfo == null || data2.equipment[7].growInfo == null || data2.equipment[9].growInfo == null || data2.equipment[10].growInfo == null || data2.equipment[11].growInfo == null || data2.equipment[12].growInfo == null) return interaction.editReply("Level 105 Equipment not equipped in some slots");
+                    if(data2.equipment[0].growInfo == null || data2.equipment[2].growInfo == null || data2.equipment[3].growInfo == null || data2.equipment[6].growInfo == null || data2.equipment[4].growInfo == null || data2.equipment[5].growInfo == null || data2.equipment[8].growInfo == null || data2.equipment[7].growInfo == null || data2.equipment[9].growInfo == null || data2.equipment[10].growInfo == null || data2.equipment[11].growInfo == null || data2.equipment[12].growInfo == null) return interaction.editReply("Level 105 Epic/Legendary equipment missing in some slots");
                     adventureName = data2.adventureName;
                     if(data2.equipment[0].upgradeInfo != null) 
                         wepImg = await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[0].upgradeInfo.itemId}`);
@@ -196,8 +190,6 @@ module.exports = {
                         */
 
                          try{
-                            //
-//                          await wait(6500);
                             await interaction.editReply({embeds: [embed], files: [attachment] });
                          }
                          catch(err){

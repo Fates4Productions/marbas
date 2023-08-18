@@ -1,8 +1,6 @@
 const { SlashCommandBuilder, discordSort } = require("discord.js");
 const {API_KEY} = require('../../config.json');
 const fetch = require('node-fetch');
-const { request } = require('undici');
-const { URLSearchParams } = require("url");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -104,9 +102,6 @@ module.exports = {
                             ]
                           }
                           try{
-                            //await interaction.deferReply();
-                            //await wait(3000);
-
                             await interaction.editReply(embed);
                           } catch(err) {
                             console.log(err);

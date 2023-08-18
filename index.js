@@ -2,7 +2,7 @@
 const { BOT_TOKEN } = require('./config.json');
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -44,16 +44,22 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 
 	try {
-		await interaction.deferReply();
+		await interaction.deferReply({ephemeral:true});
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
-			await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });
+			await interaction.editReply({ content: 'There was an error while executing this command!'});
 		} else {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
+});
+
+client.on("ready", ()=> {
+	setInterval(()=>{
+		client.user.setActivity(`${client.guilds.cache.size} Servers!`, {type: ActivityType.Watching})
+	}, 10000);
 });
 
 // Log in to Discord with your client's token

@@ -1,13 +1,7 @@
-const { SlashCommandBuilder, discordSort, MessageAttachment, AttachmentBuilder, EmbedBuilder, CategoryChannel } = require("discord.js");
+const { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const {API_KEY} = require('../../config.json');
 const fetch = require('node-fetch');
-const { request } = require('undici');
-const { URLSearchParams } = require("url");
-const { channel } = require("diagnostics_channel");
 const Canvas = require('@napi-rs/canvas');
-const path = require('path');
-const { waitForDebugger } = require("inspector");
-const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -135,8 +129,6 @@ module.exports = {
 
 
                          try{
-                           //await interaction.deferReply();
-                            //await wait(6000);
                             await interaction.editReply({embeds: [embed], files: [attachment] });
                          }
                          catch(err){
