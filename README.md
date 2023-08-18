@@ -4,10 +4,10 @@
 
     Overview
     Features
-    Installation
+    Invite Link
     Usage
     Contributing
-    License
+    Contact
 
 ## Overview
 
@@ -29,7 +29,7 @@ Slash commands!
 
 ## Contributing
 
-Requests features, I'll try to implement them if DFO Open API and discordjs let me.
+Requests features or send feedback with /feedback, I'll try to implement them if DFO Open API and discordjs let me.
 
 ## Contact
 
