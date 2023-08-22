@@ -32,7 +32,10 @@ module.exports = {
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
+            .catch(err=>{console.log(err)})
             .then(data => {
+                if(data===undefined) return interaction.editReply("API request failed, DFO might be under maintenance.");
+                if(data.error.status===503) return interaction.editReply("API Error DNF980, DFO under maintenance.");
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,

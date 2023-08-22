@@ -43,7 +43,11 @@ module.exports = {
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
+            .catch(err=>{console.log(err)})
             .then(data => {
+                if(data===undefined) return interaction.editReply("API request failed.");
+                if(data.error.status===503) return interaction.editReply("API Error DNF980, DFO under maintenance.");
+                console.log(data);
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,
@@ -108,24 +112,6 @@ module.exports = {
                             "text": `Character id: ${characterId}\nBot by @shadepopping`
                         })
                     
-                    
-                    /*{
-                        "description": "this should be working",
-                        "components": [
-                            {
-                            "type": 1,
-                            "components": [
-                                {
-                                    "style": 4,
-                                    "label": `❌`,
-                                    "custom_id": `remove`,
-                                    "disabled": false,
-                                    "type": 2
-                                }
-                            ]
-                            }
-                        ],
-*/
 
 
                          try{
