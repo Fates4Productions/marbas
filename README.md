@@ -17,6 +17,8 @@ Marbas Servant is a lightweight bot designed to serve Dungeon Fighter Online pla
 
     Check character info
     Inspect equipped gear on a character
+    Inspect talismans
+    Character rankings
     More to come...
 
 ## Invite Link
