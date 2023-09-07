@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, discordSort } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const {API_KEY} = require('../../config.json');
 const fetch = require('node-fetch');
 
@@ -42,29 +42,10 @@ module.exports = {
                 .then (async data2 => {
                     adventureName = data2.adventureName,
                     guildName = data2.guildName,
-                    embed = {
-                        "description": "asd",
-                        /*"components": [
-                            {
-                            "type": 1,
-                            "components": [
-                                {
-                                    "style": 4,
-                                    "label": `❌`,
-                                    "custom_id": `remove`,
-                                    "disabled": false,
-                                    "type": 2
-                                }
-                            ]
-                            }
-                        ],*/
-                        "embeds": [
-                            {
-                            "type": "rich",
-                            "title": `Explorer Club\n<${adventureName}>`,
-                            "description": "",
-                            "color": 0x00FFFF,
-                            "fields": [
+                    embed = new EmbedBuilder()
+                        .setTitle(`Explorer Club\n<${adventureName}>`)
+                        .setColor(0x00FFFF)
+                        .addFields([
                                 {
                                     "name": `Character:`,
                                     "value": `${characterName}`,
@@ -94,25 +75,22 @@ module.exports = {
                                     "name": `Guild:`,
                                     "value": `${guildName}`,
                                     "inline": true
-                                }
-                                ],
-                                "footer": {
-                                  "text": `Character id: ${characterId}\nBot by @shadepopping`
-                                }
-                              }
-                            ]
-                          }
-                          try{
-                            await interaction.editReply(embed);
-                          } catch(err) {
+                                }])
+                        .setFooter({
+                            "text": `Character id: ${characterId}\nBot by @shadepopping`
+                        })
+                          
+                        try{
+                            await interaction.editReply({embeds: [embed]});
+                         } catch(err) {
                             console.log(err);
                             return;
                           }
                 });
             })
             .catch(err => {
-                if(data===undefined) return interaction.editReply("API request failed, DFO might be under maintenance.");
-                if(data.error.status===503) return interaction.editReply("API Error DNF980, DFO under maintenance.");
+                if(data===undefined) return interaction.editReply("API request failed.");
+                if(data.error.status===503) return interaction.editReply("System maintenance.");
                 console.log(err);
             });
 
