@@ -44,8 +44,18 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 
 	try {
-		await interaction.deferReply({ephemeral:true});
-		await command.execute(interaction);
+		var fs = require('fs');
+        fs.readFile("showChannels.json",  async function(err,content){
+            if(err) throw err;
+            var data = JSON.parse(content);
+            if (JSON.stringify(data).includes(interaction.channelId)){
+				await interaction.deferReply();
+				await command.execute(interaction);
+            } else {
+				await interaction.deferReply({ephemeral:true});
+				await command.execute(interaction);
+			}
+		});
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
