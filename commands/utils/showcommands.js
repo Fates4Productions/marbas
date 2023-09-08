@@ -9,8 +9,8 @@ module.exports = {
     .setDescription('Show commands in current channel'),
     async execute(interaction) {
         client.login(BOT_TOKEN);
-        if(!interaction.memberPermissions.has(PermissionsBitField.Flags.Administrator)){
-            await interaction.editReply('Administrator only command.');
+        if(!interaction.memberPermissions.has(PermissionsBitField.Flags.ManageChannels)){
+            await interaction.editReply('Manage Channels permission required.');
             return;
         }
         var fs = require('fs');
