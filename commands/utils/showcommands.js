@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, Client, GatewayIntentBits, PermissionsBitField} = require("discord.js");
-const {BOT_OWNER_ID, BOT_TOKEN} = require('../../config.json');
+const {BOT_TOKEN} = require('../../config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds]});
 
@@ -14,8 +14,9 @@ module.exports = {
             return;
         }
         var fs = require('fs');
-        fs.readFile("showChannels.json",  function(err,content){
+        fs.readFile("showChannels.json",  async function(err,content){
             if(err) throw err;
+            var shown = false;
             var data = JSON.parse(content);
             if (JSON.stringify(data).includes(interaction.channelId)){
                 interaction.editReply('Commands already shown in this channel');
@@ -26,6 +27,7 @@ module.exports = {
                 for (i = 0; i < data.guilds.length; i++){
                     if (data.guilds[i].guildId === interaction.guildId){
                         data.guilds[i].channels.push(interaction.channelId);
+                        shown = true;
                         break;
                     }
                 }
@@ -35,21 +37,25 @@ module.exports = {
                     channels: [interaction.channelId]
                 }
                 data.guilds.push(obj)
+                shown = true;
             }
             
             fs.writeFileSync ("showChannels.json", JSON.stringify(data), function(err) {
             if (err) throw err;
 
             })
-            
+            try{
+                if (shown)
+                    await interaction.editReply('Commands now shown in this channel');
+                else 
+                    await interaction.editReply('Commands already shown in this channel');
+            } catch(err) {
+                console.log(err);
+                return;
+            }        
         });
         
-        try{
-            await interaction.editReply('Commands shown in this channel');
-        } catch(err) {
-            console.log(err);
-            return;
-        }        
+        
         return;
         
     },

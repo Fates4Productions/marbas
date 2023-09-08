@@ -1,11 +1,11 @@
 const { SlashCommandBuilder, Client, GatewayIntentBits, PermissionsBitField} = require("discord.js");
-const {BOT_OWNER_ID, BOT_TOKEN} = require('../../config.json');
+const {BOT_TOKEN} = require('../../config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds]});
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('hide')
+    .setName('hidecommands')
     .setDescription('Hide commands in current channel'),
     async execute(interaction) {
         client.login(BOT_TOKEN);
@@ -14,10 +14,11 @@ module.exports = {
             return;
         }
         var fs = require('fs');
-        fs.readFile("showChannels.json",  function(err,content){
+        fs.readFile("showChannels.json",  async function(err,content){
             if(err) throw err;
+            var removed = false;
             var data = JSON.parse(content);
-            if (JSON.stringify(data).includes(interaction.channelId)){
+            if (!JSON.stringify(data).includes(interaction.channelId)){
                 interaction.editReply('Commands already hidden in this channel');
                 return;
             }
@@ -36,17 +37,19 @@ module.exports = {
             if (err) throw err;
 
             })
-            
+            try{
+                if (removed)
+                    await interaction.editReply('Commands now hidden in this channel');
+                else 
+                    await interaction.editReply('Commands already hidden in this channel');
+            } catch(err) {
+                console.log(err);
+                return;
+            }        
         });
-
         
-
-        try{
-            await interaction.editReply('Commands now hidden from this channel');
-        } catch(err) {
-            console.log(err);
-            return;
-        }        
+        
         return;
+        
     },
 };
