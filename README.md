@@ -25,6 +25,11 @@ Marbas Servant is a lightweight bot designed to serve Dungeon Fighter Online pla
 
 [https://discord.com/api/oauth2/authorize?client_id=1138554242454524016&permissions=117760&scope=bot%20applications.commands
 ](https://discord.com/api/oauth2/authorize?client_id=1138554242454524016&permissions=117760&scope=bot%20applications.commands)
+
+## Support Server
+
+[discord.me/marbas](https://discord.me/marbas)
+
 ## Usage
 
 Slash commands!
