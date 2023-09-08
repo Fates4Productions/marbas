@@ -23,12 +23,18 @@ module.exports = {
                 return;
             }
             if (JSON.stringify(data).includes(interaction.guildId)){
-                var obj = {channelId: interaction.channelId}
                 for (i = 0; i < data.guilds.length; i++){
                     if (data.guilds[i].guildId === interaction.guildId){
-                        data.guilds[i].channels.push(interaction.channelId);
-                        removed = true;
-                        break;
+                        for (j = 0; j < data.guilds[i].channels.length; j++){
+                            if(data.guilds[i].channels[j] === interaction.channelId){
+                                data.guilds[i].channels.splice(j,1)
+                                removed = true;
+                                break;
+                            }
+                        }
+                        if (removed===true){
+                            break;
+                        }
                     }
                 }
             }
