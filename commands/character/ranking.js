@@ -116,13 +116,20 @@ module.exports = {
         }
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?${jobId?'jobId='+jobId+'&':''}${jobGrowID?'jobGrowId='+jobGrowID+'&':''}isBuff=${isbuff}&limit=${num}&apikey=${API_KEY}`)
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok){
+                    return res.json();
+                } else {
+                    console.error(res.status, res.statusText);
+                    throw Error(`${res.status} - ${res.statusText}`);
+                }
+            })
             .then(async data => {
                     embed = new EmbedBuilder()
                     .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'}`)
                     .setColor(0x00FFFF)
                     .setFooter({
-                        "text": `Bot by @shadepopping`
+                        "text": `Join discord.me/marbas for support`
                     })
                     
                     for(i=0; i<Math.ceil(data.rows.length/10); i++){
@@ -149,10 +156,12 @@ module.exports = {
                           }
                 
             })
-            .catch(err => {
-                if(data===undefined) return interaction.editReply("API request failed.");
-                if(data.error.status===503) return interaction.editReply("System maintenance.");
-                console.log(err);
+            .catch(async err => {
+                embed = new EmbedBuilder()
+                    .setTitle(`${err}`)
+                    .setColor(0xFF0000)
+                await interaction.editReply({embeds: [embed]});
+                return;
             });
 
 

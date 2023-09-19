@@ -31,8 +31,14 @@ module.exports = {
         let jobGrowName = '';
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
-            .then(res => res.json())
-            .catch(err=>{console.log(err)})
+            .then(res => {
+                if (res.ok){
+                    return res.json();
+                } else {
+                    console.error(res.status, res.statusText);
+                    throw Error(`${res.status} - ${res.statusText}`);
+                }
+            })
             .then(data => {
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
@@ -74,7 +80,7 @@ module.exports = {
                             }
                         ])
                         .setFooter({
-                            "text": `Character id: ${characterId}\nBot by @shadepopping`
+                            "text": `Character id: ${characterId}\nJoin discord.me/marbas for support`
                         })
                     
                     for (i = 0; i < data2.talismans.length; i++){
@@ -98,10 +104,12 @@ module.exports = {
                          
                 });
             })
-            .catch(err => {
-                if(data===undefined) return interaction.editReply("API request failed.");
-                if(data.error.status===503) return interaction.editReply("System maintenance.");
-                console.log(err);
+            .catch(async err => {
+                embed = new EmbedBuilder()
+                    .setTitle(`${err}`)
+                    .setColor(0xFF0000)
+                await interaction.editReply({embeds: [embed]});
+                return;
             });
 
 
