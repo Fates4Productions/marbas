@@ -129,7 +129,7 @@ module.exports = {
                     .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'}`)
                     .setColor(0x00FFFF)
                     .setFooter({
-                        "text": `Join discord.me/marbas for support`
+                        "text": `Join discord.me/marbas for support\nPowered by Neople OpenAPI`
                     })
                     
                     for(i=0; i<Math.ceil(data.rows.length/10); i++){

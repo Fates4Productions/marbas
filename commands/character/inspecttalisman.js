@@ -80,7 +80,7 @@ module.exports = {
                             }
                         ])
                         .setFooter({
-                            "text": `Character id: ${characterId}\nJoin discord.me/marbas for support`
+                            "text": `Character id: ${characterId}\nJoin discord.me/marbas for support\nPowered by Neople OpenAPI`
                         })
                     
                     for (i = 0; i < data2.talismans.length; i++){
