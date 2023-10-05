@@ -49,9 +49,13 @@ module.exports = {
                     adventureName = data2.adventureName,
                     guildName = data2.guildName,
                     embed = new EmbedBuilder()
-                        .setTitle(`Explorer Club\n<${adventureName}>`)
                         .setColor(0x00FFFF)
                         .addFields([
+                                {
+                                "name": `Explorer Club:`,
+                                "value": `[<${adventureName}>](https://dfo.gg/explorer-club/${adventureName})`,
+                                "inline": true
+                                },
                                 {
                                     "name": `Character:`,
                                     "value": `[${characterName}](https://dfo.gg/character/${server}/${characterName})`,
