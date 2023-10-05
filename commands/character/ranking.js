@@ -135,7 +135,7 @@ module.exports = {
                     for(i=0; i<Math.ceil(data.rows.length/10); i++){
                         let rows="";
                         for(j=0; j<Math.min(10,data.rows.length-i*10); j++){
-                            let character = `${data.rows[i*10+j].fame} - ${data.rows[i*10+j].characterName}\n`
+                            let character = `${data.rows[i*10+j].fame} - [${data.rows[i*10+j].characterName}](https://dfo.gg/character/${data.rows[i*10+j].serverId}/${data.rows[i*10+j].characterName})\n`
                             rows = rows.concat(character);
                         }
                     embed.addFields([
