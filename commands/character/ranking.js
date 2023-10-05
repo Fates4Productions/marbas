@@ -15,10 +15,10 @@ module.exports = {
             {name: 'Sirocco', value: 'siroco'},
         ))
     .addIntegerOption(option => option.setName('top')
-        .setDescription('Show top n characters, max 90')
+        .setDescription('Show top n characters, max 100')
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(90)
+        .setMaxValue(100)
         )
     .addStringOption(option => option.setName('class')
         .setDescription('Search Base Class')
@@ -132,15 +132,15 @@ module.exports = {
                         "text": `Join discord.me/marbas for support\nPowered by Neople OpenAPI`
                     })
                     
-                    for(i=0; i<Math.ceil(data.rows.length/15); i++){
+                    for(i=0; i<Math.ceil(data.rows.length/20); i++){
                         let rows="";
-                        for(j=0; j<Math.min(15,data.rows.length-i*15); j++){
-                            let character = `${data.rows[i*15+j].fame}: [${data.rows[i*15+j].characterName}](https://dfo.gg/character/${data.rows[i*15+j].serverId}/${data.rows[i*15+j].characterName})\n`
+                        for(j=0; j<Math.min(20,data.rows.length-i*20); j++){
+                            let character = `${data.rows[i*20+j].fame}: [${data.rows[i*20+j].characterName}](https://dfo.gg/m/${data.rows[i*20+j].serverId[0]}/${data.rows[i*20+j].characterName})\n`
                             rows = rows.concat(character);
                         }
                     embed.addFields([
                         {
-                            "name": `#${1+i*15}-${Math.min(15,data.rows.length-i*15)+i*15}`,
+                            "name": `#${1+i*20}-${Math.min(20,data.rows.length-i*20)+i*20}`,
                             "value": `${rows}`,
                             "inline": true
                         }
