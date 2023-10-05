@@ -15,10 +15,10 @@ module.exports = {
             {name: 'Sirocco', value: 'siroco'},
         ))
     .addIntegerOption(option => option.setName('top')
-        .setDescription('Show top n characters, max 200')
+        .setDescription('Show top n characters, max 90')
         .setRequired(true)
         .setMinValue(1)
-        .setMaxValue(200)
+        .setMaxValue(90)
         )
     .addStringOption(option => option.setName('class')
         .setDescription('Search Base Class')
@@ -126,27 +126,26 @@ module.exports = {
             })
             .then(async data => {
                     embed = new EmbedBuilder()
-                    .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'}`)
+                    .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'} by Fame`)
                     .setColor(0x00FFFF)
                     .setFooter({
                         "text": `Join discord.me/marbas for support\nPowered by Neople OpenAPI`
                     })
                     
-                    for(i=0; i<Math.ceil(data.rows.length/10); i++){
+                    for(i=0; i<Math.ceil(data.rows.length/15); i++){
                         let rows="";
-                        for(j=0; j<Math.min(10,data.rows.length-i*10); j++){
-                            let character = `${data.rows[i*10+j].fame} - [${data.rows[i*10+j].characterName}](https://dfo.gg/character/${data.rows[i*10+j].serverId}/${data.rows[i*10+j].characterName})\n`
+                        for(j=0; j<Math.min(15,data.rows.length-i*15); j++){
+                            let character = `${data.rows[i*15+j].fame}: [${data.rows[i*15+j].characterName}](https://dfo.gg/character/${data.rows[i*15+j].serverId}/${data.rows[i*15+j].characterName})\n`
                             rows = rows.concat(character);
                         }
                     embed.addFields([
                         {
-                            "name": `#${1+i*10}-${Math.min(10,data.rows.length-i*10)+i*10}`,
+                            "name": `#${1+i*15}-${Math.min(15,data.rows.length-i*15)+i*15}`,
                             "value": `${rows}`,
                             "inline": true
                         }
                     ])
                 }
-                
 
                           try{
                             await interaction.editReply({embeds: [embed]});

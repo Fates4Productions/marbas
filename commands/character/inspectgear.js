@@ -92,7 +92,7 @@ module.exports = {
                         .addFields([
                             {
                                 "name": `Character:`,
-                                "value": `${characterName}`,
+                                "value": `[${characterName}](https://dfo.gg/character/${server}/${characterName})`,
                                 "inline": true
                             },
                             {
