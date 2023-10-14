@@ -48,7 +48,8 @@ module.exports = {
             {name: '2 (Soul Bender/Dark Templar/Striker/Launcher/Glacial Master/etc.)', value: 2},
             {name: '3 (Berserker/Demon Slayer/Brawler/Mechanic/Blood Mage/etc.)', value: 3},
             {name: '4 (Asura/Vagabond/Grappler/Spitfire/Swift Master/etc.)', value: 4},
-            {name: '5 (Ghostblade/Spectre/Blitz/Dimension Walker/Enchantress)', value: 5}
+            {name: '5 (Ghostblade/Spectre/Blitz/Dimension Walker/Enchantress)', value: 5},
+            {name: '6 (Base)', value: 6}
         ))
     .addBooleanOption(option => option.setName('isbuff')
         .setDescription('Search for Buffer only (true), Search for DPS only (false), Search for ALL (no input)')
@@ -75,6 +76,9 @@ module.exports = {
                 break;
             case 5:
                 jobGrowID = '5dff544828c42d8fc109f2f747d50c7f';
+                break;
+            case 6:
+                jobGrowID = '8238e08c9e4bbecf276a4bdedabcd562';
                 break;
             default:
                 jobGrowID = '';
@@ -105,6 +109,9 @@ module.exports = {
                     break;
                 case 4:
                     jobGrowID = 'ec6a93f4d14bb36ccc541183291197a7';
+                    break;
+                case 6:
+                    jobGrowID = '8238e08c9e4bbecf276a4bdedabcd562';
                     break;
                 default:
                     jobGrowID = '';
