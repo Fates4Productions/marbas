@@ -27,6 +27,9 @@ module.exports = {
         let fame = 0;
         let guildName = '';
         let embed = {};
+        let rank = 0;
+        let maxFame = 999999;
+        let found=false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => {
                 if (res.ok){
@@ -36,13 +39,40 @@ module.exports = {
                     throw Error(`${res.status} - ${res.statusText}`);
                 }
             })
-            .then(data => {
+            .then(async data => {
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,
                 level = data.rows[0].level,
                 jobGrowName = data.rows[0].jobGrowName,
-                fame = data.rows[0].fame,
+                fame = data.rows[0].fame
+
+                while (!found) {
+                    await fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?maxFame=${maxFame}&jobId=${data.rows[0].jobId}&jobGrowId=${data.rows[0].jobGrowId}&limit=200&apikey=${API_KEY}`)
+                    .then(res => {
+                    if (res.ok){
+                        //console.log(res);
+                        return res.json();
+                    } else {
+                        console.error(res.status, res.statusText);
+                        throw Error(`${res.status} - ${res.statusText}`);
+                    }
+                    })
+                    .then(async data2 => {
+                        for(i=0;i<data2.rows.length;i++){
+                            rank++;
+                            if(data2.rows[i].characterId == characterId){
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(!found){
+                            maxFame = data2.rows[199].fame;
+                            rank--;
+                        }
+                    })
+                }
+                
                 fetch(`https://api.dfoneople.com/df/servers/${server}/characters/${characterId}?apikey=${API_KEY}`)
                 .then (res2=> res2.json())
                 .then (async data2 => {
@@ -84,6 +114,11 @@ module.exports = {
                                 {
                                     "name": `Guild:`,
                                     "value": `${guildName}`,
+                                    "inline": true
+                                },
+                                {
+                                    "name": `Class Ranking:`,
+                                    "value": `${rank}`,
                                     "inline": true
                                 }])
                         .setFooter({
