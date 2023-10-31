@@ -102,6 +102,10 @@ module.exports = {
                         if (fame < data2.rows[199].fame){
                             allRank+=200;
                             allMaxFame = data2.rows[199].fame;
+                            if (allRank >= 10000){
+                                allFound = true;
+                                allRank = ">10000"
+                            }
                         } else {
                         for(i=0;i<data2.rows.length;i++){
                             allRank++;
