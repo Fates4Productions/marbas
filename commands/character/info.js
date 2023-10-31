@@ -29,7 +29,10 @@ module.exports = {
         let embed = {};
         let rank = 0;
         let maxFame = 999999;
-        let found=false;
+        let found = false;
+        let allRank = 0;
+        let allMaxFame = 999999;
+        let allFound = false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => {
                 if (res.ok){
@@ -46,6 +49,12 @@ module.exports = {
                 level = data.rows[0].level,
                 jobGrowName = data.rows[0].jobGrowName,
                 fame = data.rows[0].fame
+                if(fame==null){
+                    found = true;
+                    allFound = true;
+                    rank = 'N/A'
+                    allRank = 'N/A'
+                }
 
                 while (!found) {
                     await fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?maxFame=${maxFame}&jobId=${data.rows[0].jobId}&jobGrowId=${data.rows[0].jobGrowId}&limit=200&apikey=${API_KEY}`)
@@ -69,6 +78,32 @@ module.exports = {
                         if(!found){
                             maxFame = data2.rows[199].fame;
                             rank--;
+                        }
+                    })
+                }
+
+                while (!allFound) {
+                    await fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?maxFame=${allMaxFame}&limit=200&apikey=${API_KEY}`)
+                    .then(res => {
+                    if (res.ok){
+                        //console.log(res);
+                        return res.json();
+                    } else {
+                        console.error(res.status, res.statusText);
+                        throw Error(`${res.status} - ${res.statusText}`);
+                    }
+                    })
+                    .then(async data2 => {
+                        for(i=0;i<data2.rows.length;i++){
+                            allRank++;
+                            if(data2.rows[i].characterId == characterId){
+                                allFound = true;
+                                break;
+                            }
+                        }
+                        if(!allFound){
+                            allMaxFame = data2.rows[199].fame;
+                            allRank--;
                         }
                     })
                 }
@@ -114,6 +149,11 @@ module.exports = {
                                 {
                                     "name": `Guild:`,
                                     "value": `${guildName}`,
+                                    "inline": true
+                                },
+                                {
+                                    "name": `Overall Ranking:`,
+                                    "value": `${allRank}`,
                                     "inline": true
                                 },
                                 {
