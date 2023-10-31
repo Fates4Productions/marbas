@@ -68,6 +68,10 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
+                        if (fame < data2.rows[199].fame){
+                            rank+=200;
+                            maxFame = data2.rows[199].fame;
+                        } else {
                         for(i=0;i<data2.rows.length;i++){
                             rank++;
                             if(data2.rows[i].characterId == characterId){
@@ -79,6 +83,7 @@ module.exports = {
                             maxFame = data2.rows[199].fame;
                             rank--;
                         }
+                    }
                     })
                 }
 
@@ -94,6 +99,10 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
+                        if (fame < data2.rows[199].fame){
+                            allRank+=200;
+                            allMaxFame = data2.rows[199].fame;
+                        } else {
                         for(i=0;i<data2.rows.length;i++){
                             allRank++;
                             if(data2.rows[i].characterId == characterId){
@@ -105,6 +114,7 @@ module.exports = {
                             allMaxFame = data2.rows[199].fame;
                             allRank--;
                         }
+                    }
                     })
                 }
                 
