@@ -123,15 +123,11 @@ module.exports = {
         }
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?${jobId?'jobId='+jobId+'&':''}${jobGrowID?'jobGrowId='+jobGrowID+'&':''}isBuff=${isbuff}&limit=${num}&apikey=${API_KEY}`)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    console.error(res.status, res.statusText);
-                    throw Error(`${res.status} - ${res.statusText}`);
-                }
-            })
+            .then(res => res.json())
             .then(async data => {
+                if(data.error){
+                    throw Error(`${data.error.status} - ${data.error.code} [${data.error.message}]`)
+                }
                     embed = new EmbedBuilder()
                     .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'} by Fame`)
                     .setColor(0x00FFFF)

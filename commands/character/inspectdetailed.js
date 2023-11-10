@@ -42,15 +42,11 @@ module.exports = {
         let fame = 0;
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
-        .then(res => {
-            if (res.ok){
-                return res.json();
-            } else {
-                console.error(res.status, res.statusText);
-                throw Error(`${res.status} - ${res.statusText}`);
-            }
-        })
+        .then(res => res.json())
             .then(data => {
+                if(data.error){
+                    throw Error(`${data.error.status} - ${data.error.code} [${data.error.message}]`)
+                }
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,
@@ -59,6 +55,9 @@ module.exports = {
                 fetch(`https://api.dfoneople.com/df/servers/${server}/characters/${characterId}/equip/equipment?apikey=${API_KEY}`)
                 .then (res2=> res2.json())
                 .then (async data2 => {
+                    if(data2.error){
+                        throw Error(`${data2.error.status} - ${data2.error.code} [${data2.error.message}]`)
+                    }
                     if(data2.equipment.length<13) return interaction.editReply("Missing equipment in slots");
                     if(data2.equipment[0].growInfo == null || data2.equipment[2].growInfo == null || data2.equipment[3].growInfo == null || data2.equipment[6].growInfo == null || data2.equipment[4].growInfo == null || data2.equipment[5].growInfo == null || data2.equipment[8].growInfo == null || data2.equipment[7].growInfo == null || data2.equipment[9].growInfo == null || data2.equipment[10].growInfo == null || data2.equipment[11].growInfo == null || data2.equipment[12].growInfo == null) return interaction.editReply("Level 105 Epic/Legendary equipment missing in some slots");
                     adventureName = data2.adventureName;
@@ -190,6 +189,13 @@ module.exports = {
                          return;
                          }
                          
+                })
+                .catch(async err => {
+                    embed = new EmbedBuilder()
+                        .setTitle(`${err}`)
+                        .setColor(0xFF0000)
+                    await interaction.editReply({embeds: [embed]});
+                    return;
                 });
             })
             .catch(async err => {

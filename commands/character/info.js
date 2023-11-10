@@ -34,15 +34,11 @@ module.exports = {
         let allMaxFame = 999999;
         let allFound = false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    console.error(res.status, res.statusText);
-                    throw Error(`${res.status} - ${res.statusText}`);
-                }
-            })
+            .then(res => res.json())
             .then(async data => {
+                if(data.error){
+                    throw Error(`${data.error.status} - ${data.error.code} [${data.error.message}]`)
+                }
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,

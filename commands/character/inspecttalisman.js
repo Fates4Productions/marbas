@@ -31,15 +31,11 @@ module.exports = {
         let jobGrowName = '';
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                } else {
-                    console.error(res.status, res.statusText);
-                    throw Error(`${res.status} - ${res.statusText}`);
-                }
-            })
+            .then(res => res.json())
             .then(data => {
+                if(data.error){
+                    throw Error(`${data.error.status} - ${data.error.code} [${data.error.message}]`)
+                }
                 if(!data.rows[0]) return interaction.editReply("That character doesn't exist... yet.");
                 characterId = data.rows[0].characterId,
                 characterName = data.rows[0].characterName,
@@ -47,6 +43,9 @@ module.exports = {
                 fetch(`https://api.dfoneople.com/df/servers/${server}/characters/${characterId}/equip/talisman?apikey=${API_KEY}`)
                 .then (res2=> res2.json())
                 .then (async data2 => {
+                    if(data2.error){
+                        throw Error(`${data2.error.status} - ${data2.error.code} [${data2.error.message}]`)
+                    }
                     if(data2.talismans === null) return interaction.editReply("No talismans equipped");
                     adventureName = data2.adventureName;
                     for(i = 0; i < data2.talismans.length; i++){
@@ -106,6 +105,13 @@ module.exports = {
                          return;
                          }
                          
+                })
+                .catch(async err => {
+                    embed = new EmbedBuilder()
+                        .setTitle(`${err}`)
+                        .setColor(0xFF0000)
+                    await interaction.editReply({embeds: [embed]});
+                    return;
                 });
             })
             .catch(async err => {
