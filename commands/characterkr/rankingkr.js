@@ -29,23 +29,23 @@ module.exports = {
     .addStringOption(option => option.setName('class')
         .setDescription('Search Base Class')
         .addChoices(
-            {name: 'Slayer (M)', value: '40132cbc8b2b5eedfe035e35c322472e'},
-            {name: 'Slayer (F)', value: '08cf6465c8dfcdbf5a896b40a2811007'},
-            {name: 'Fighter (M)', value: 'cb572073a5db60ca7f245363a79d1f22'},
-            {name: 'Fighter (F)', value: '18ccc1f38ad764c77ec52dbaefce0c2e'},
-            {name: 'Gunner (M)', value: '374f82bfb1c054cde79431cf4420a35c'},
-            {name: 'Gunner (F)', value: '8b680595b273a488997441eee3f7176f'},
-            {name: 'Mage (M)', value: '3c67a7b71273c8452c9f68adb4004215'},
-            {name: 'Mage (F)', value: 'fc067d0781f1d01ef8f0b215440bac6d'},
-            {name: 'Priest (M)', value: '92d1c40f5e486e3aa4fae8db283d1fd3'},
-            {name: 'Priest (F)', value: '2ae47d662a9b18848c5e314966765bd7'},
-            {name: 'Thief', value: '402e7bc8074a3dcd7797da85a9f7386e'},
-            {name: 'Knight', value: 'c21b43973c6d3fd9f192e9b66925c9b9'},
-            {name: 'Demonic Lancer', value: '0b2b0ac15e70d4fc9f4094b9a90937a6'},
-            {name: 'Agent', value: '86c10841b1e4ddc6db7bd2fbe5e11519'},
-            {name: 'Archer', value: 'dbbdf2dd28072b26f22b77454d665f21'},
-            {name: 'Neo: Dark Knight', value: '4b3bc88bb6337d2e23ed3411b2435068'},
-            {name: 'Neo: Creator', value: 'c95dfe0d42b6c71bc8019fcca0b3eccd'}
+            {name: 'Slayer (M)', value: '41f1cdc2ff58bb5fdc287be0db2a8df3'},
+            {name: 'Slayer (F)', value: '1645c45aabb008c98406b3a16447040d'},
+            {name: 'Fighter (M)', value: 'ca0f0e0e9e1d55b5f9955b03d9dd213c'},
+            {name: 'Fighter (F)', value: 'a7a059ebe9e6054c0644b40ef316d6e9'},
+            {name: 'Gunner (M)', value: 'afdf3b989339de478e85b614d274d1ef'},
+            {name: 'Gunner (F)', value: '944b9aab492c15a8474f96947ceeb9e4'},
+            {name: 'Mage (M)', value: 'a5ccbaf5538981c6ef99b236c0a60b73'},
+            {name: 'Mage (F)', value: '3909d0b188e9c95311399f776e331da5'},
+            {name: 'Priest (M)', value: 'f6a4ad30555b99b499c07835f87ce522'},
+            {name: 'Priest (F)', value: '0c1b401bb09241570d364420b3ba3fd7'},
+            {name: 'Thief', value: 'ddc49e9ad1ff72a00b53c6cff5b1e920'},
+            {name: 'Knight', value: '0ee8fa5dc525c1a1f23fc6911e921e4a'},
+            {name: 'Demonic Lancer', value: '3deb7be5f01953ac8b1ecaa1e25e0420'},
+            {name: 'Agent', value: '986c2b3d72ee0e4a0b7fcfbe786d4e02'},
+            {name: 'Archer', value: 'b9cb48777665de22c006fabaf9a560b3'},
+            {name: 'Neo: Dark Knight', value: '17e417b31686389eebff6d754c3401ea'},
+            {name: 'Neo: Creator', value: 'b522a95d819a5559b775deb9a490e49a'}
         ))
     .addIntegerOption(option => option.setName('subclass')
         .setDescription('Search Subclass #')
@@ -54,8 +54,8 @@ module.exports = {
             {name: '2 (Soul Bender/Dark Templar/Striker/Launcher/Glacial Master/etc.)', value: 2},
             {name: '3 (Berserker/Demon Slayer/Brawler/Mechanic/Blood Mage/etc.)', value: 3},
             {name: '4 (Asura/Vagabond/Grappler/Spitfire/Swift Master/etc.)', value: 4},
-            {name: '5 (Ghostblade/Spectre/Blitz/Dimension Walker/Enchantress)', value: 5},
-            {name: '6 (Base)', value: 6}
+            {name: '5 (Ghostblade/Spectre/Blitz/Dimension Walker/Enchantress)', value: 5}/*,
+            {name: '6 (Base)', value: 6}*/
         ))
     .addBooleanOption(option => option.setName('isbuff')
         .setDescription('Search for Buffer only (true), Search for DPS only (false), Search for ALL (no input)')
@@ -66,22 +66,22 @@ module.exports = {
         const isbuff = interaction.options.getBoolean('isbuff');
         let jobId = interaction.options.getString('class') ? interaction.options.getString('class') : ``;
         let jobGrowID = interaction.options.getString('class') ? interaction.options.getInteger('subclass') ? interaction.options.getInteger('subclass') : `` : ``;
-        if (['40132cbc8b2b5eedfe035e35c322472e','08cf6465c8dfcdbf5a896b40a2811007','374f82bfb1c054cde79431cf4420a35c','3c67a7b71273c8452c9f68adb4004215','fc067d0781f1d01ef8f0b215440bac6d'].indexOf(jobId) >= 0){
+        if (['41f1cdc2ff58bb5fdc287be0db2a8df3','08cf6465c8dfcdbf5a896b40a2811007','374f82bfb1c054cde79431cf4420a35c','3c67a7b71273c8452c9f68adb4004215','fc067d0781f1d01ef8f0b215440bac6d'].indexOf(jobId) >= 0){
         switch (jobGrowID){
             case 1:
-                jobGrowID = 'ba2ae3598c3af10c26562e073bc92060';
+                jobGrowID = '37495b941da3b1661bc900e68ef3b2c6';
                 break;
             case 2:
-                jobGrowID = '53632e641719388657407af4f9c063ac';
+                jobGrowID = '618326026de1a1f1cfba5dbd0b8396e7';
                 break;
             case 3:
-                jobGrowID = '0f12d512a825d52e75d87120f39ba4cb';
+                jobGrowID = '6d459bc74ba73ee4fe5cdc4655400193';
                 break;
             case 4:
-                jobGrowID = 'ec6a93f4d14bb36ccc541183291197a7';
+                jobGrowID = 'c9b492038ee3ca8d27d7004cf58d59f3';
                 break;
             case 5:
-                jobGrowID = '5dff544828c42d8fc109f2f747d50c7f';
+                jobGrowID = '92da05ec93fb43406e193ffb9a2a629b';
                 break;
             case 6:
                 jobGrowID = '8238e08c9e4bbecf276a4bdedabcd562';
@@ -93,10 +93,10 @@ module.exports = {
         } else if(jobId==='dbbdf2dd28072b26f22b77454d665f21'){
             switch (jobGrowID){
                 case 1:
-                    jobGrowID = 'ba2ae3598c3af10c26562e073bc92060';
+                    jobGrowID = '37495b941da3b1661bc900e68ef3b2c6';
                     break;
                 case 2:
-                    jobGrowID = '53632e641719388657407af4f9c063ac';
+                    jobGrowID = '618326026de1a1f1cfba5dbd0b8396e7';
                     break;
                 default:
                     jobGrowID = '';
@@ -105,16 +105,16 @@ module.exports = {
         } else {
             switch (jobGrowID){
                 case 1:
-                    jobGrowID = 'ba2ae3598c3af10c26562e073bc92060';
+                    jobGrowID = '37495b941da3b1661bc900e68ef3b2c6';
                     break;
                 case 2:
-                    jobGrowID = '53632e641719388657407af4f9c063ac';
+                    jobGrowID = '618326026de1a1f1cfba5dbd0b8396e7';
                     break;
                 case 3:
-                    jobGrowID = '0f12d512a825d52e75d87120f39ba4cb';
+                    jobGrowID = '6d459bc74ba73ee4fe5cdc4655400193';
                     break;
                 case 4:
-                    jobGrowID = 'ec6a93f4d14bb36ccc541183291197a7';
+                    jobGrowID = 'c9b492038ee3ca8d27d7004cf58d59f3';
                     break;
                 case 6:
                     jobGrowID = '8238e08c9e4bbecf276a4bdedabcd562';
@@ -124,8 +124,8 @@ module.exports = {
                     break;
                 }
         }
-        if (['4b3bc88bb6337d2e23ed3411b2435068','c95dfe0d42b6c71bc8019fcca0b3eccd'].indexOf(jobId) >= 0 ){
-            jobGrowID = '632b3965398c1c7526657cea3fd16bf5';
+        if (['17e417b31686389eebff6d754c3401ea','b522a95d819a5559b775deb9a490e49a'].indexOf(jobId) >= 0 ){
+            jobGrowID = '0a49d9c8b5e1358efff324e5cb11d41e';
         }
         let embed = {};
         fetch(`https://api.neople.co.kr/df/servers/${server}/characters-fame?${jobId?'jobId='+jobId+'&':''}${jobGrowID?'jobGrowId='+jobGrowID+'&':''}isBuff=${isbuff}&limit=${num}&apikey=${API_KEY_KR}`)
