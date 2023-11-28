@@ -21,8 +21,7 @@ module.exports = {
             {name: '바칼/Bakal', value: 'bakal'}
         ))
     .addIntegerOption(option => option.setName('top')
-        .setDescription('Show top n characters, max 60')
-        .setRequired(true)
+        .setDescription('Show top n characters, max 60, default 10')
         .setMinValue(1)
         .setMaxValue(60)
         )
@@ -62,7 +61,7 @@ module.exports = {
         ),
     async execute(interaction) {
         const server = interaction.options.getString('server');
-        const num = interaction.options.getInteger('top');
+        const num = interaction.options.getInteger('top') ? interaction.options.getInteger('top') : 10;
         const isbuff = interaction.options.getBoolean('isbuff');
         let jobId = interaction.options.getString('class') ? interaction.options.getString('class') : ``;
         let jobGrowID = interaction.options.getString('class') ? interaction.options.getInteger('subclass') ? interaction.options.getInteger('subclass') : `` : ``;
