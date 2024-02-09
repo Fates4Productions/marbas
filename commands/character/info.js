@@ -64,9 +64,9 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
-                        if (fame < data2.rows[199].fame){
-                            rank+=200;
-                            maxFame = data2.rows[199].fame;
+                        if (fame < data2.rows[data2.rows.length-1].fame){
+                            rank+=data2.rows.length;
+                            maxFame = data2.rows[data2.rows.length-1].fame;
                         } else {
                         for(i=0;i<data2.rows.length;i++){
                             rank++;
@@ -76,7 +76,7 @@ module.exports = {
                             }
                         }
                         if(!found){
-                            maxFame = data2.rows[199].fame;
+                            maxFame = data2.rows[data2.rows.length-1].fame;
                             rank--;
                         }
                     }
@@ -95,9 +95,9 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
-                        if (fame < data2.rows[199].fame){
-                            allRank+=200;
-                            allMaxFame = data2.rows[199].fame;
+                        if (fame < data2.rows[data2.rows.length-1].fame){
+                            allRank+=data2.rows.length;
+                            allMaxFame = data2.rows[data2.rows.length-1].fame;
                             if (allRank >= 10000){
                                 allFound = true;
                                 allRank = ">10000"
@@ -111,7 +111,7 @@ module.exports = {
                             }
                         }
                         if(!allFound){
-                            allMaxFame = data2.rows[199].fame;
+                            allMaxFame = data2.rows[data2.rows.length-1].fame;
                             allRank--;
                         }
                     }
