@@ -40,6 +40,15 @@ module.exports = {
         let characterName = '';
         let jobGrowName = '';
         let fame = 0;
+        let highestLevel = 0;
+        let lowestLevel = 0;
+        let highestOLv = 0;
+        let lowestOLv = 0;
+        let highestXP = 0;
+        let lowestXP = 0;
+        let highestItem = '';
+        let lowestItem = '';
+
         let embed = {};
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
         .then(res => res.json())
@@ -110,6 +119,85 @@ module.exports = {
                     else
                     earImg= await Canvas.loadImage(`https://img-api.dfoneople.com/df/items/${data2.equipment[12].itemId}`);
 
+                    highestLevel = data2.equipment[0].itemAvailableLevel;
+                    lowestLevel = data2.equipment[0].itemAvailableLevel;
+                    highestOLv = data2.equipment[0].fixedOption.level;
+                    lowestOLv = data2.equipment[0].fixedOption.level;
+                    highestXP = data2.equipment[0].fixedOption.expRate;
+                    lowestXP = data2.equipment[0].fixedOption.expRate;
+                    highestItem = data2.equipment[0].slotName;
+                    lowestItem = data2.equipment[0].slotName;
+
+                    for (let i=2; i<data2.equipment.length; ++i){
+                        if (data2.equipment[i].itemAvailableLevel > highestLevel){
+                            highestLevel = data2.equipment[i].itemAvailableLevel;
+                            if (data2.equipment[i].fixedOption) {
+                                highestOLv = data2.equipment[i].fixedOption.level;
+                                highestXP = data2.equipment[i].fixedOption.expRate;
+                            } else if (data2.equipment[i].customOption){
+                                highestOLv = data2.equipment[i].customOption.level;
+                                highestXP = data2.equipment[i].customOption.expRate;
+                            }
+                            highestItem = data2.equipment[i].slotName;
+                        } else if (data2.equipment[i].itemAvailableLevel < lowestLevel){
+                            lowestLevel = data2.equipment[i].itemAvailableLevel;
+                            if (data2.equipment[i].fixedOption) {
+                                lowestOLv = data2.equipment[i].fixedOption.level;
+                                lowestXP = data2.equipment[i].fixedOption.expRate;
+                            } else if (data2.equipment[i].customOption){
+                                lowestOLv = data2.equipment[i].customOption.level;
+                                lowestXP = data2.equipment[i].customOption.expRate;
+                            }
+                            lowestItem = data2.equipment[i].slotName;
+                        }
+                        if (data2.equipment[i].itemAvailableLevel == highestLevel){
+                            if (data2.equipment[i].fixedOption) {
+                                if (data2.equipment[i].fixedOption.level >= highestOLv && data2.equipment[i].fixedOption.expRate > highestXP){
+                                    highestOLv = data2.equipment[i].fixedOption.level;
+                                    highestXP = data2.equipment[i].fixedOption.expRate;
+                                    highestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].fixedOption.level > highestOLv){
+                                    highestOLv = data2.equipment[i].fixedOption.level;
+                                    highestXP = data2.equipment[i].fixedOption.expRate;
+                                    highestItem = data2.equipment[i].slotName;
+                                }
+                            } else if (data2.equipment[i].customOption){
+                                if (data2.equipment[i].customOption.level >= highestOLv && data2.equipment[i].customOption.expRate > highestXP){
+                                    highestOLv = data2.equipment[i].customOption.level;
+                                    highestXP = data2.equipment[i].customOption.expRate;
+                                    highestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].customOption.level > highestOLv){
+                                    highestOLv = data2.equipment[i].customOption.level;
+                                    highestXP = data2.equipment[i].customOption.expRate;
+                                    highestItem = data2.equipment[i].slotName;
+                                }
+                            }
+                        }
+                        if (data2.equipment[i].itemAvailableLevel == lowestLevel){
+                            if (data2.equipment[i].fixedOption) {
+                                if (data2.equipment[i].fixedOption.level <= lowestOLv && data2.equipment[i].fixedOption.expRate < lowestXP){
+                                    lowestOLv = data2.equipment[i].fixedOption.level;
+                                    lowestXP = data2.equipment[i].fixedOption.expRate;
+                                    lowestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].fixedOption.level < lowestOLv){
+                                    lowestOLv = data2.equipment[i].fixedOption.level;
+                                    lowestXP = data2.equipment[i].fixedOption.expRate;
+                                    lowestItem = data2.equipment[i].slotName;
+                                }
+                            } else if (data2.equipment[i].customOption){
+                                if (data2.equipment[i].customOption.level <= lowestOLv && data2.equipment[i].customOption.expRate < lowestXP){
+                                    lowestOLv = data2.equipment[i].customOption.level;
+                                    lowestXP = data2.equipment[i].customOption.expRate;
+                                    lowestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].customOption.level < lowestOLv){
+                                    lowestOLv = data2.equipment[i].customOption.level;
+                                    lowestXP = data2.equipment[i].customOption.expRate;
+                                    lowestItem = data2.equipment[i].slotName;
+                                }
+                            }
+                        }
+                    }
+
                     ctx.drawImage(shoulderImg, 0, 0),
                     ctx.drawImage(topImg, 30, 0),
                     ctx.drawImage(wepImg,90,0),
@@ -172,6 +260,11 @@ module.exports = {
                             {
                                 "name": `Special Equipment:`,
                                 "value": `${data2.equipment[10].slotName}: +${data2.equipment[10].reinforce}${data2.equipment[10].amplificationName?'['+data2.equipment[10].amplificationName.slice(-3)+']':''} ${data2.equipment[10].itemName} (Lv${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.level:data2.equipment[10].customOption.level} [${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.expRate:data2.equipment[10].customOption.expRate}%])\n${data2.equipment[12].slotName}: +${data2.equipment[12].reinforce}${data2.equipment[12].amplificationName?'['+data2.equipment[12].amplificationName.slice(-3)+']':''} ${data2.equipment[12].itemName} (Lv${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.level:data2.equipment[12].customOption.level} [${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.expRate:data2.equipment[12].customOption.expRate}%])\n${data2.equipment[11].slotName}: +${data2.equipment[11].reinforce}${data2.equipment[11].amplificationName?'['+data2.equipment[11].amplificationName.slice(-3)+']':''} ${data2.equipment[11].itemName} (Lv${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.level:data2.equipment[11].customOption.level} [${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.expRate:data2.equipment[11].customOption.expRate}%])`,
+                                "inline": false
+                            },
+                            {
+                                "name": `Quick Growth Checker:`,
+                                "value": `Highest OLv/XP Slot: ${highestItem}\nLowest OLv/XP Slot: ${lowestItem}`,
                                 "inline": false
                             }
                         ])
