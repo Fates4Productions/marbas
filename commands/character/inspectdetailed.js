@@ -160,6 +160,8 @@ module.exports = {
                                     highestOLv = data2.equipment[i].fixedOption.level;
                                     highestXP = data2.equipment[i].fixedOption.expRate;
                                     highestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].fixedOption.level == highestOLv && data2.equipment[i].fixedOption.expRate == highestXP){
+                                    highestItem += ', '+data2.equipment[i].slotName;
                                 }
                             } else if (data2.equipment[i].customOption){
                                 if (data2.equipment[i].customOption.level >= highestOLv && data2.equipment[i].customOption.expRate > highestXP){
@@ -170,6 +172,8 @@ module.exports = {
                                     highestOLv = data2.equipment[i].customOption.level;
                                     highestXP = data2.equipment[i].customOption.expRate;
                                     highestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].customOption.level == highestOLv && data2.equipment[i].customOption.expRate == highestXP){
+                                    highestItem += ', '+data2.equipment[i].slotName;
                                 }
                             }
                         }
@@ -183,6 +187,8 @@ module.exports = {
                                     lowestOLv = data2.equipment[i].fixedOption.level;
                                     lowestXP = data2.equipment[i].fixedOption.expRate;
                                     lowestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].fixedOption.level == lowestOLv && data2.equipment[i].fixedOption.expRate == lowestXP){
+                                    lowestItem += ', '+data2.equipment[i].slotName;
                                 }
                             } else if (data2.equipment[i].customOption){
                                 if (data2.equipment[i].customOption.level <= lowestOLv && data2.equipment[i].customOption.expRate < lowestXP){
@@ -193,6 +199,8 @@ module.exports = {
                                     lowestOLv = data2.equipment[i].customOption.level;
                                     lowestXP = data2.equipment[i].customOption.expRate;
                                     lowestItem = data2.equipment[i].slotName;
+                                } else if (data2.equipment[i].customOption.level == lowestOLv && data2.equipment[i].customOption.expRate == lowestXP){
+                                    lowestItem += ', '+data2.equipment[i].slotName;
                                 }
                             }
                         }
