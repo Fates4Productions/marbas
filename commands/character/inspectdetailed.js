@@ -121,10 +121,17 @@ module.exports = {
 
                     highestLevel = data2.equipment[0].itemAvailableLevel;
                     lowestLevel = data2.equipment[0].itemAvailableLevel;
-                    highestOLv = data2.equipment[0].fixedOption.level;
-                    lowestOLv = data2.equipment[0].fixedOption.level;
-                    highestXP = data2.equipment[0].fixedOption.expRate;
-                    lowestXP = data2.equipment[0].fixedOption.expRate;
+                    if (data2.equipment[0].fixedOption){
+                        highestOLv = data2.equipment[0].fixedOption.level;
+                        lowestOLv = data2.equipment[0].fixedOption.level;
+                        highestXP = data2.equipment[0].fixedOption.expRate;
+                        lowestXP = data2.equipment[0].fixedOption.expRate;
+                    } else {
+                        highestOLv = data2.equipment[0].customOption.level;
+                        lowestOLv = data2.equipment[0].customOption.level;
+                        highestXP = data2.equipment[0].customOption.expRate;
+                        lowestXP = data2.equipment[0].customOption.expRate;
+                    }
                     highestItem = data2.equipment[0].slotName;
                     lowestItem = data2.equipment[0].slotName;
 
@@ -139,18 +146,7 @@ module.exports = {
                                 highestXP = data2.equipment[i].customOption.expRate;
                             }
                             highestItem = data2.equipment[i].slotName;
-                        } else if (data2.equipment[i].itemAvailableLevel < lowestLevel){
-                            lowestLevel = data2.equipment[i].itemAvailableLevel;
-                            if (data2.equipment[i].fixedOption) {
-                                lowestOLv = data2.equipment[i].fixedOption.level;
-                                lowestXP = data2.equipment[i].fixedOption.expRate;
-                            } else if (data2.equipment[i].customOption){
-                                lowestOLv = data2.equipment[i].customOption.level;
-                                lowestXP = data2.equipment[i].customOption.expRate;
-                            }
-                            lowestItem = data2.equipment[i].slotName;
-                        }
-                        if (data2.equipment[i].itemAvailableLevel == highestLevel){
+                        } else if (data2.equipment[i].itemAvailableLevel == highestLevel){
                             if (data2.equipment[i].fixedOption) {
                                 if (data2.equipment[i].fixedOption.level >= highestOLv && data2.equipment[i].fixedOption.expRate > highestXP){
                                     highestOLv = data2.equipment[i].fixedOption.level;
@@ -177,7 +173,17 @@ module.exports = {
                                 }
                             }
                         }
-                        if (data2.equipment[i].itemAvailableLevel == lowestLevel){
+                        if (data2.equipment[i].itemAvailableLevel < lowestLevel){
+                            lowestLevel = data2.equipment[i].itemAvailableLevel;
+                            if (data2.equipment[i].fixedOption) {
+                                lowestOLv = data2.equipment[i].fixedOption.level;
+                                lowestXP = data2.equipment[i].fixedOption.expRate;
+                            } else if (data2.equipment[i].customOption){
+                                lowestOLv = data2.equipment[i].customOption.level;
+                                lowestXP = data2.equipment[i].customOption.expRate;
+                            }
+                            lowestItem = data2.equipment[i].slotName;
+                        } else if (data2.equipment[i].itemAvailableLevel == lowestLevel){
                             if (data2.equipment[i].fixedOption) {
                                 if (data2.equipment[i].fixedOption.level <= lowestOLv && data2.equipment[i].fixedOption.expRate < lowestXP){
                                     lowestOLv = data2.equipment[i].fixedOption.level;
@@ -257,17 +263,17 @@ module.exports = {
                             },
                             {
                                 "name": `Armour:`,
-                                "value": `${data2.equipment[2].slotName}: +${data2.equipment[2].reinforce}${data2.equipment[2].amplificationName?'['+data2.equipment[2].amplificationName.slice(-3)+']':''} ${data2.equipment[2].itemName} (Lv${data2.equipment[2].fixedOption?data2.equipment[2].fixedOption.level:data2.equipment[2].customOption.level} [${data2.equipment[2].fixedOption?data2.equipment[2].fixedOption.expRate:data2.equipment[2].customOption.expRate}%])\n${data2.equipment[4].slotName}: +${data2.equipment[4].reinforce}${data2.equipment[4].amplificationName?'['+data2.equipment[4].amplificationName.slice(-3)+']':''} ${data2.equipment[4].itemName} (Lv${data2.equipment[4].fixedOption?data2.equipment[4].fixedOption.level:data2.equipment[4].customOption.level} [${data2.equipment[4].fixedOption?data2.equipment[4].fixedOption.expRate:data2.equipment[4].customOption.expRate}%])\n${data2.equipment[3].slotName}: +${data2.equipment[3].reinforce}${data2.equipment[3].amplificationName?'['+data2.equipment[3].amplificationName.slice(-3)+']':''} ${data2.equipment[3].itemName} (Lv${data2.equipment[3].fixedOption?data2.equipment[3].fixedOption.level:data2.equipment[3].customOption.level} [${data2.equipment[3].fixedOption?data2.equipment[3].fixedOption.expRate:data2.equipment[3].customOption.expRate}%])\n${data2.equipment[6].slotName}: +${data2.equipment[6].reinforce}${data2.equipment[6].amplificationName?'['+data2.equipment[6].amplificationName.slice(-3)+']':''} ${data2.equipment[6].itemName} (Lv${data2.equipment[6].fixedOption?data2.equipment[6].fixedOption.level:data2.equipment[6].customOption.level} [${data2.equipment[6].fixedOption?data2.equipment[6].fixedOption.expRate:data2.equipment[6].customOption.expRate}%])\n${data2.equipment[5].slotName}: +${data2.equipment[5].reinforce}${data2.equipment[5].amplificationName?'['+data2.equipment[5].amplificationName.slice(-3)+']':''} ${data2.equipment[5].itemName} (Lv${data2.equipment[5].fixedOption?data2.equipment[5].fixedOption.level:data2.equipment[5].customOption.level} [${data2.equipment[5].fixedOption?data2.equipment[5].fixedOption.expRate:data2.equipment[5].customOption.expRate}%])`,
+                                "value": `${data2.equipment[2].slotName}: +${data2.equipment[2].reinforce}${data2.equipment[2].amplificationName?'['+data2.equipment[2].amplificationName.slice(-3)+']':''}${data2.equipment[2].mistGear?'** MIST**':data2.equipment[2].pureMistGear?'** PURE**':''} ${data2.equipment[2].itemName} (Lv${data2.equipment[2].fixedOption?data2.equipment[2].fixedOption.level:data2.equipment[2].customOption.level} [${data2.equipment[2].fixedOption?data2.equipment[2].fixedOption.expRate:data2.equipment[2].customOption.expRate}%])\n${data2.equipment[4].slotName}: +${data2.equipment[4].reinforce}${data2.equipment[4].amplificationName?'['+data2.equipment[4].amplificationName.slice(-3)+']':''}${data2.equipment[4].mistGear?'** MIST**':data2.equipment[4].pureMistGear?'** PURE**':''} ${data2.equipment[4].itemName} (Lv${data2.equipment[4].fixedOption?data2.equipment[4].fixedOption.level:data2.equipment[4].customOption.level} [${data2.equipment[4].fixedOption?data2.equipment[4].fixedOption.expRate:data2.equipment[4].customOption.expRate}%])\n${data2.equipment[3].slotName}: +${data2.equipment[3].reinforce}${data2.equipment[3].amplificationName?'['+data2.equipment[3].amplificationName.slice(-3)+']':''}${data2.equipment[3].mistGear?'** MIST**':data2.equipment[3].pureMistGear?'** PURE**':''} ${data2.equipment[3].itemName} (Lv${data2.equipment[3].fixedOption?data2.equipment[3].fixedOption.level:data2.equipment[3].customOption.level} [${data2.equipment[3].fixedOption?data2.equipment[3].fixedOption.expRate:data2.equipment[3].customOption.expRate}%])\n${data2.equipment[6].slotName}: +${data2.equipment[6].reinforce}${data2.equipment[6].amplificationName?'['+data2.equipment[6].amplificationName.slice(-3)+']':''}${data2.equipment[6].mistGear?'** MIST**':data2.equipment[6].pureMistGear?'** PURE**':''} ${data2.equipment[6].itemName} (Lv${data2.equipment[6].fixedOption?data2.equipment[6].fixedOption.level:data2.equipment[6].customOption.level} [${data2.equipment[6].fixedOption?data2.equipment[6].fixedOption.expRate:data2.equipment[6].customOption.expRate}%])\n${data2.equipment[5].slotName}: +${data2.equipment[5].reinforce}${data2.equipment[5].amplificationName?'['+data2.equipment[5].amplificationName.slice(-3)+']':''}${data2.equipment[5].mistGear?'** MIST**':data2.equipment[5].pureMistGear?'** PURE**':''} ${data2.equipment[5].itemName} (Lv${data2.equipment[5].fixedOption?data2.equipment[5].fixedOption.level:data2.equipment[5].customOption.level} [${data2.equipment[5].fixedOption?data2.equipment[5].fixedOption.expRate:data2.equipment[5].customOption.expRate}%])`,
                                 "inline": false
                             },
                             {
                                 "name": `Accessory:`,
-                                "value": `${data2.equipment[7].slotName}: +${data2.equipment[7].reinforce}${data2.equipment[7].amplificationName?'['+data2.equipment[7].amplificationName.slice(-3)+']':''} ${data2.equipment[7].itemName} (Lv${data2.equipment[7].fixedOption?data2.equipment[7].fixedOption.level:data2.equipment[7].customOption.level} [${data2.equipment[7].fixedOption?data2.equipment[7].fixedOption.expRate:data2.equipment[7].customOption.expRate}%])\n${data2.equipment[8].slotName}: +${data2.equipment[8].reinforce}${data2.equipment[8].amplificationName?'['+data2.equipment[8].amplificationName.slice(-3)+']':''} ${data2.equipment[8].itemName} (Lv${data2.equipment[8].fixedOption?data2.equipment[8].fixedOption.level:data2.equipment[8].customOption.level} [${data2.equipment[8].fixedOption?data2.equipment[8].fixedOption.expRate:data2.equipment[8].customOption.expRate}%])\n${data2.equipment[9].slotName}: +${data2.equipment[9].reinforce}${data2.equipment[9].amplificationName?'['+data2.equipment[9].amplificationName.slice(-3)+']':''} ${data2.equipment[9].itemName} (Lv${data2.equipment[9].fixedOption?data2.equipment[9].fixedOption.level:data2.equipment[9].customOption.level} [${data2.equipment[9].fixedOption?data2.equipment[9].fixedOption.expRate:data2.equipment[9].customOption.expRate}%])`,
+                                "value": `${data2.equipment[7].slotName}: +${data2.equipment[7].reinforce}${data2.equipment[7].amplificationName?'['+data2.equipment[7].amplificationName.slice(-3)+']':''}${data2.equipment[7].mistGear?'** MIST**':data2.equipment[7].pureMistGear?'** PURE**':''} ${data2.equipment[7].itemName} (Lv${data2.equipment[7].fixedOption?data2.equipment[7].fixedOption.level:data2.equipment[7].customOption.level} [${data2.equipment[7].fixedOption?data2.equipment[7].fixedOption.expRate:data2.equipment[7].customOption.expRate}%])\n${data2.equipment[8].slotName}: +${data2.equipment[8].reinforce}${data2.equipment[8].amplificationName?'['+data2.equipment[8].amplificationName.slice(-3)+']':''}${data2.equipment[8].mistGear?'** MIST**':data2.equipment[8].pureMistGear?'** PURE**':''} ${data2.equipment[8].itemName} (Lv${data2.equipment[8].fixedOption?data2.equipment[8].fixedOption.level:data2.equipment[8].customOption.level} [${data2.equipment[8].fixedOption?data2.equipment[8].fixedOption.expRate:data2.equipment[8].customOption.expRate}%])\n${data2.equipment[9].slotName}: +${data2.equipment[9].reinforce}${data2.equipment[9].amplificationName?'['+data2.equipment[9].amplificationName.slice(-3)+']':''}${data2.equipment[9].mistGear?'** MIST**':data2.equipment[9].pureMistGear?'** PURE**':''} ${data2.equipment[9].itemName} (Lv${data2.equipment[9].fixedOption?data2.equipment[9].fixedOption.level:data2.equipment[9].customOption.level} [${data2.equipment[9].fixedOption?data2.equipment[9].fixedOption.expRate:data2.equipment[9].customOption.expRate}%])`,
                                 "inline": false
                             },
                             {
                                 "name": `Special Equipment:`,
-                                "value": `${data2.equipment[10].slotName}: +${data2.equipment[10].reinforce}${data2.equipment[10].amplificationName?'['+data2.equipment[10].amplificationName.slice(-3)+']':''} ${data2.equipment[10].itemName} (Lv${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.level:data2.equipment[10].customOption.level} [${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.expRate:data2.equipment[10].customOption.expRate}%])\n${data2.equipment[12].slotName}: +${data2.equipment[12].reinforce}${data2.equipment[12].amplificationName?'['+data2.equipment[12].amplificationName.slice(-3)+']':''} ${data2.equipment[12].itemName} (Lv${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.level:data2.equipment[12].customOption.level} [${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.expRate:data2.equipment[12].customOption.expRate}%])\n${data2.equipment[11].slotName}: +${data2.equipment[11].reinforce}${data2.equipment[11].amplificationName?'['+data2.equipment[11].amplificationName.slice(-3)+']':''} ${data2.equipment[11].itemName} (Lv${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.level:data2.equipment[11].customOption.level} [${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.expRate:data2.equipment[11].customOption.expRate}%])`,
+                                "value": `${data2.equipment[10].slotName}: +${data2.equipment[10].reinforce}${data2.equipment[10].amplificationName?'['+data2.equipment[10].amplificationName.slice(-3)+']':''}${data2.equipment[10].mistGear?'** MIST**':data2.equipment[10].pureMistGear?'** PURE**':''} ${data2.equipment[10].itemName} (Lv${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.level:data2.equipment[10].customOption.level} [${data2.equipment[10].fixedOption?data2.equipment[10].fixedOption.expRate:data2.equipment[10].customOption.expRate}%])\n${data2.equipment[12].slotName}: +${data2.equipment[12].reinforce}${data2.equipment[12].amplificationName?'['+data2.equipment[12].amplificationName.slice(-3)+']':''}${data2.equipment[12].mistGear?'** MIST**':data2.equipment[12].pureMistGear?'** PURE**':''} ${data2.equipment[12].itemName} (Lv${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.level:data2.equipment[12].customOption.level} [${data2.equipment[12].fixedOption?data2.equipment[12].fixedOption.expRate:data2.equipment[12].customOption.expRate}%])\n${data2.equipment[11].slotName}: +${data2.equipment[11].reinforce}${data2.equipment[11].amplificationName?'['+data2.equipment[11].amplificationName.slice(-3)+']':''}${data2.equipment[11].mistGear?'** MIST**':data2.equipment[11].pureMistGear?'** PURE**':''} ${data2.equipment[11].itemName} (Lv${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.level:data2.equipment[11].customOption.level} [${data2.equipment[11].fixedOption?data2.equipment[11].fixedOption.expRate:data2.equipment[11].customOption.expRate}%])`,
                                 "inline": false
                             },
                             {
