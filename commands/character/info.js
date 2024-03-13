@@ -28,10 +28,10 @@ module.exports = {
         let guildName = '';
         let embed = {};
         let rank = 0;
-        let maxFame = 999999;
+        let maxFame = 99999;
         let found = false;
         let allRank = 0;
-        let allMaxFame = 999999;
+        let allMaxFame = 99999;
         let allFound = false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
@@ -64,22 +64,26 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
-                        if (fame < data2.rows[data2.rows.length-1].fame){
-                            rank+=data2.rows.length;
-                            maxFame = data2.rows[data2.rows.length-1].fame;
-                        } else {
-                        for(i=0;i<data2.rows.length;i++){
-                            rank++;
-                            if(data2.rows[i].characterId == characterId){
-                                found = true;
-                                break;
+                        if(data2.rows!=null){
+                            if (fame < data2.rows[data2.rows.length-1].fame){
+                                rank+=data2.rows.length;
+                                maxFame = data2.rows[data2.rows.length-1].fame;
+                            } else {
+                                for(i=0;i<data2.rows.length;i++){
+                                    rank++;
+                                    if(data2.rows[i].characterId == characterId){
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if(!found){
+                                    maxFame = data2.rows[data2.rows.length-1].fame;
+                                    rank--;
+                                }
                             }
+                        } else {
+                            maxFame-=10000;
                         }
-                        if(!found){
-                            maxFame = data2.rows[data2.rows.length-1].fame;
-                            rank--;
-                        }
-                    }
                     })
                 }
 
