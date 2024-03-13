@@ -121,42 +121,47 @@ module.exports = {
             jobGrowID = '632b3965398c1c7526657cea3fd16bf5';
         }
         let embed = {};
-        fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?${jobId?'jobId='+jobId+'&':''}${jobGrowID?'jobGrowId='+jobGrowID+'&':''}isBuff=${isbuff}&limit=${num}&apikey=${API_KEY}`)
+        let maxFame = 90000;
+        let found = false;
+        while (!found){        
+        await fetch(`https://api.dfoneople.com/df/servers/${server}/characters-fame?maxFame=${maxFame}&${jobId?'jobId='+jobId+'&':''}${jobGrowID?'jobGrowId='+jobGrowID+'&':''}isBuff=${isbuff}&limit=${num}&apikey=${API_KEY}`)
             .then(res => res.json())
             .then(async data => {
                 if(data.error){
                     throw Error(`${data.error.status} - ${data.error.code} [${data.error.message}]`)
                 }
-                    embed = new EmbedBuilder()
+                if(data.rows<1){
+                    maxFame -= 10000;
+                } else {
+                    found = true;                
+                embed = new EmbedBuilder()
                     .setTitle(`Top ${num} ${jobGrowID?data.rows[0].jobGrowName:jobId?data.rows[0].jobName:'Characters'} by Fame`)
                     .setColor(0x00FFFF)
                     .setFooter({
                         "text": `Join discord.me/marbas for support\nPowered by Neople OpenAPI`
-                    })
-                    
+                    })    
                     for(i=0; i<Math.ceil(data.rows.length/20); i++){
                         let rows="";
                         for(j=0; j<Math.min(20,data.rows.length-i*20); j++){
                             let character = `${data.rows[i*20+j].fame}: [${data.rows[i*20+j].characterName}](https://dfo.gg/m/${data.rows[i*20+j].serverId[0]}/${data.rows[i*20+j].characterName})\n`
                             rows = rows.concat(character);
                         }
-                    embed.addFields([
-                        {
-                            "name": `#${1+i*20}-${Math.min(20,data.rows.length-i*20)+i*20}`,
-                            "value": `${rows}`,
-                            "inline": true
-                        }
-                    ])
+                        embed.addFields([
+                            {
+                                "name": `#${1+i*20}-${Math.min(20,data.rows.length-i*20)+i*20}`,
+                                "value": `${rows}`,
+                                "inline": true
+                            }
+                        ])
+                    }
+                    try{
+                        await interaction.editReply({embeds: [embed]});
+                    } catch(err) {
+                        console.log(err);
+                        return;
+                    }
                 }
-
-                          try{
-                            await interaction.editReply({embeds: [embed]});
-                          } catch(err) {
-                            console.log(err);
-                            return;
-                          }
-                
-            })
+                })
             .catch(async err => {
                 embed = new EmbedBuilder()
                     .setTitle(`${err}`)
@@ -164,9 +169,7 @@ module.exports = {
                 await interaction.editReply({embeds: [embed]});
                 return;
             });
-
-
-        
+        }
         return;
     },
 };

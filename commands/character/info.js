@@ -28,10 +28,10 @@ module.exports = {
         let guildName = '';
         let embed = {};
         let rank = 0;
-        let maxFame = 99999;
+        let maxFame = 90000;
         let found = false;
         let allRank = 0;
-        let allMaxFame = 99999;
+        let allMaxFame = 90000;
         let allFound = false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
@@ -64,7 +64,10 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
-                        if(data2.rows!=null){
+                        console.log(data2);
+                        if(data2.rows<1){
+                            maxFame-=10000;
+                        } else {
                             if (fame < data2.rows[data2.rows.length-1].fame){
                                 rank+=data2.rows.length;
                                 maxFame = data2.rows[data2.rows.length-1].fame;
@@ -81,8 +84,6 @@ module.exports = {
                                     rank--;
                                 }
                             }
-                        } else {
-                            maxFame-=10000;
                         }
                     })
                 }
