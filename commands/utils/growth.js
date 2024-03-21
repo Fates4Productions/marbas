@@ -99,7 +99,7 @@ module.exports = {
                         resultLevel = 40;
                     } else
                     {
-                        for(let i=0; i<39; ++i)
+                        for(let i=0; i<=39; ++i)
                         {
                             if (seonTable[i]>=resultExp)
                             {
@@ -113,7 +113,7 @@ module.exports = {
                         greatLevel = 40;
                     } else
                     {
-                        for(let i=0; i<39; ++i)
+                        for(let i=0; i<=39; ++i)
                         {
                             if (seonTable[i]>=greatExp)
                             {
@@ -129,7 +129,7 @@ module.exports = {
                         resultLevel = 80;
                     } else
                     {
-                        for(let i=0; i<79; ++i)
+                        for(let i=0; i<=79; ++i)
                         {
                             if (expTable[i]>=resultExp)
                             {
@@ -143,7 +143,7 @@ module.exports = {
                         greatLevel = 80;
                     } else
                     {
-                        for(let i=0; i<79; ++i)
+                        for(let i=0; i<=79; ++i)
                         {
                             if (expTable[i]>=greatExp)
                             {
@@ -186,7 +186,7 @@ module.exports = {
             let nextGreat = 0;
             if(seon)
             {
-                for(let i=0; i<79; ++i)
+                for(let i=0; i<=79; ++i)
                 {
                     if (expTable[i]>=seonTable[level]-gearExp)
                     {
@@ -194,7 +194,7 @@ module.exports = {
                         break;
                     }
                 }
-                for(let i=0; i<79; ++i)
+                for(let i=0; i<=79; ++i)
                 {
                     if (expTable[i]>=((seonTable[level]-gearExp)/2))
                     {
@@ -204,7 +204,7 @@ module.exports = {
                 }
             } else 
             {
-                for(let i=0; i<79; ++i)
+                for(let i=0; i<=79; ++i)
                 {
                     if (expTable[i]>=expTable[level]-gearExp)
                     {
@@ -212,7 +212,7 @@ module.exports = {
                         break;
                     }
                 }
-                for(let i=0; i<79; ++i)
+                for(let i=0; i<=79; ++i)
                 {
                     if (expTable[i]>=((expTable[level]-gearExp)/2))
                     {
