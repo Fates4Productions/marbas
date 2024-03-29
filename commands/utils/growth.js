@@ -79,15 +79,27 @@ module.exports = {
 
             if(feedSeon)
             {
-                fodderExp = seonTable[feedLevel-1] + (seonTable[feedLevel]-seonTable[feedLevel-1])*feedPercent;
+                if (feedLevel == 40){
+                    fodderExp = seonTable[feedLevel-1];
+                } else
+                {
+                    fodderExp = seonTable[feedLevel-1] + (seonTable[feedLevel]-seonTable[feedLevel-1])*feedPercent;
+                }
             } else if(feedLevel)
             {
-                fodderExp = expTable[feedLevel-1] + (expTable[feedLevel]-expTable[feedLevel-1])*feedPercent;
+                if (feedLevel == 80){
+                    fodderExp = expTable[feedLevel-1];
+                } else
+                {
+                    fodderExp = expTable[feedLevel-1] + (expTable[feedLevel]-expTable[feedLevel-1])*feedPercent;
+                }
             }
             let resultExp = 0;
             let greatExp = 0;
             let resultLevel = 0;
             let greatLevel = 0;
+
+            console.log(fodderExp);
             if(fodderExp > 0)
             {
                 resultExp = gearExp + fodderExp;
