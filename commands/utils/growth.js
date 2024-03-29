@@ -99,7 +99,6 @@ module.exports = {
             let resultLevel = 0;
             let greatLevel = 0;
 
-            console.log(fodderExp);
             if(fodderExp > 0)
             {
                 resultExp = gearExp + fodderExp;
