@@ -33,6 +33,8 @@ module.exports = {
         let allRank = 0;
         let allMaxFame = 90000;
         let allFound = false;
+        let missing = false;
+        let allMissing = false;
         fetch(`https://api.dfoneople.com/df/servers/${server}/characters?&apikey=${API_KEY}&characterName=${ign}&wordType=match`)
             .then(res => res.json())
             .then(async data => {
@@ -64,7 +66,6 @@ module.exports = {
                     }
                     })
                     .then(async data2 => {
-                        console.log(data2);
                         if(data2.rows<1){
                             maxFame-=10000;
                         } else {
@@ -81,6 +82,10 @@ module.exports = {
                                 }
                                 if(!found){
                                     maxFame = data2.rows[data2.rows.length-1].fame;
+                                    if (maxFame < fame){
+                                        found = true;
+                                        missing = true;
+                                    }
                                     rank--;
                                 }
                             }
@@ -117,6 +122,10 @@ module.exports = {
                         }
                         if(!allFound){
                             allMaxFame = data2.rows[data2.rows.length-1].fame;
+                            if (allMaxFame < fame){
+                                allFound = true;
+                                allMissing = true;
+                            }
                             allRank--;
                         }
                     }
@@ -168,12 +177,12 @@ module.exports = {
                                 },
                                 {
                                     "name": `Overall Ranking:`,
-                                    "value": `${allRank}`,
+                                    "value": `${allMissing?allRank:"Missing, contact Neople"}`,
                                     "inline": true
                                 },
                                 {
                                     "name": `Class Ranking:`,
-                                    "value": `${rank}`,
+                                    "value": `${missing?rank:"Missing, contact Neople"}`,
                                     "inline": true
                                 }])
                         .setFooter({
